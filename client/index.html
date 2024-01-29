@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QR Code Generator</title>
+    <!-- Include the QRCode library -->
+    <script src="https://cdn.rawgit.com/davidshimjs/qrcodejs/gh-pages/qrcode.min.js"></script>
+    
+</head>
+<body>
+
+    <form id="qrForm">
+        <label for="fullName">Name:</label>
+        <input type="text" id="name" required>
+
+        <label for="email">Email:</label>
+        <input type="text" id="email" required>
+
+        <button type="submit">Generate QR Code</button>
+    </form>
+
+    <div id="result"></div>
+
+    <!-- Include your JavaScript code here -->
+    <script>
+        // Your JavaScript code goes here
+
+      
+    document.getElementById('qrForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            
+            
+                const fullName=document.getElementById('name').value;
+                const email=document.getElementById('email').value;
+                
+                const formdata=new FormData();
+                formdata.append('fullName',fullName);
+                formdata.append('email',email);
+
+            fetch('http://localhost:3000/auth/register',{
+                method:'POST',
+                body:formdata
+            }).then(response => response.json())
+            .then(data => {
+              document.getElementById('result').textContent=data.message;
+              console.log(data)
+            })
+            .catch(error => console.error('Error sending POST request:', error));
+        });
+
+    </script>
+
+</body>
+</html>
+        
